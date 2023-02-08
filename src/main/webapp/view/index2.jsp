@@ -95,7 +95,13 @@ h2 {
 				method : "get",
 				data : param,
 				success : function(data) {
-					
+					if (data == 0) {
+						alert("가입실패");
+					}else if (data == 1) {
+						//alert("가입성공");
+						$("#tbody").empty();
+						//getList();
+					}
 				},
 				error:function(){
 					alert("실패");
@@ -103,7 +109,28 @@ h2 {
 			});
 		});
 		
-		
+		// 삭제 : 동적으로 생성된 요소는 click 아니라 on을 사용하자
+		$("table").on("click","#del", function() {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/MyController08",
+				dataType : "text",
+				method : "get",
+				data : "m_idx="+$(this).attr("name"),
+				// 현재 선택된 아이의속성이 name
+				success : function(data) {
+					if (data == 0) {
+						alert("삭제실패");
+					}else if (data == 1) {
+						alert("삭제성공");
+						$("#tbody").empty();
+						getList();
+					}
+				},
+				error:function(){
+					alert("실패");
+				}
+			});
+		});
 		
 		getList();		
 	});
@@ -124,8 +151,9 @@ h2 {
 			</thead>
 			<tbody>
 				<tr>
-					<td><br><input type="text" size="14" name="m_id" id="m_id" /><br><span>중복여부</span>
-					</td>
+					<td><br>
+					<input type="text" size="14" name="m_id" id="m_id" /><br>
+					<span>중복여부</span></td>
 					<td><input type="password" size="8" name="m_pw" /></td>
 					<td><input type="text" size="14" name="m_name" /></td>
 					<td><input type="text" size="25" name="m_addr" /></td>

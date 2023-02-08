@@ -35,16 +35,29 @@ public class DAO {
 //		}
 //		return result;
 //	}
-	
+
 	// 아이디 중복 체크
 	public static String getIdChk(String m_id) {
 		String result = "1";
 		List<VO> list = getSession().selectList("members.idchk", m_id);
-		if(list.size()>0) {
+		if (list.size() > 0) {
 			result = "0";
 		}
 		return result;
 	}
 
+	// 가입하기
+	public static int getInsert(VO vo) {
+		int result = getSession().insert("members.insert", vo);
+		ss.commit();
+		return result;
+	}
+
+	// 삭제하기
+	public static int getDelete(String m_idx) {
+		int result = getSession().delete("members.delete", m_idx);
+		ss.commit();
+		return result;
+	}
 
 }
